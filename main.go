@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
 
 func printTree(root string, prefix string) {
-	files, err := ioutil.ReadDir(root)
+	files, err := os.ReadDir(root)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -23,7 +22,7 @@ func printTree(root string, prefix string) {
 			fmt.Print("├── ")
 		}
 		fmt.Println(file.Name())
-		if file.IsDir() {
+		if info, err := file.Info(); err == nil && info.IsDir() {
 			newPrefix := prefix
 			if isLast {
 				newPrefix += "    "
